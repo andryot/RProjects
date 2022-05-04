@@ -1,0 +1,32 @@
+---
+title: "Seminarska naloga 1"
+output:
+  html_document:
+    df_print: paged
+---
+
+## Avtorja: Aleksandar Georgiev in Andraž Anderle
+
+## Uporabljene funkcije
+install.packages("lubridate") <br />
+install.packages(c("CORElearn", "e1071", "randomForest", "kernlab", "nnet"))
+
+### Najprej sva vse podatke naložila v vektor podatki ter datum shranila kot podatkovni tip datum, 
+```{r}
+podatki <- read.csv("dataSem1.txt", stringsAsFactors = T)
+podatki$datum <- as.Date(podatki$datum)
+vzh <- podatki$regija=="vzhodna"
+zah <- podatki$regija=="zahodna"
+```
+
+```{r}
+meseci <- seq( from=1, to=12, by=1)
+library(lubridate)
+tmp2 <- c()
+for (mesec in meseci) {
+  tmp <- sum(podatki$poraba[vzh & (month(podatki$datum) == mesec)])
+  tmp2 <- c(tmp2, tmp)
+}
+plot(xaxt = 'n', tmp2, type = "b", xlab="Meseci", ylab = "Skupna poraba posamenze regije", main ="Poraba po posameznih regiji po mesecih")
+```
+
